@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAP AI & Joule Session – Abbott | Follow-Up Notes</title>
+  <style>
+    :root {
+      --abbott-blue:       #0063BE;
+      --abbott-blue-dark:  #004A94;
+      --abbott-blue-light: #E5EFF9;
+      --abbott-teal:       #13B5C8;
+      --text-primary:      #1A1A1A;
+      --text-muted:        #767676;
+      --surface-alt:       #F4F7FB;
+      --border:            #D8E4F0;
+      --sticky-orange:     #F7A832;
+      --sticky-orange-bg:  #FFF3D6;
+      --sticky-blue-bg:    #D4EDFB;
+      --sticky-blue-border:#5BB8E8;
+      --sticky-pink-bg:    #FFD6E0;
+      --sticky-pink-border:#F06292;
+      --sticky-green-bg:   #DFFBE8;
+      --sticky-green-border:#4CAF7D;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Helvetica Neue", Arial, "Liberation Sans", sans-serif;
+      background: var(--surface-alt);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    a { color: var(--abbott-blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ═══════════════════════════════════════
+       HEADER
+    ═══════════════════════════════════════ */
+    header {
+      background: #0a0a0a;
+      color: #fff;
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      height: 64px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+
+    /* Abbott logo — matches brand mark: teal rounded square icon + white wordmark */
+    .abbott-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .abbott-logo svg { display: block; }
+    .abbott-wordmark {
+      font-size: 22px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .header-divider {
+      width: 1px;
+      height: 32px;
+      background: rgba(255,255,255,0.2);
+      margin: 0 20px;
+    }
+    .header-subtitle {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.4;
+    }
+    .header-subtitle strong { color: #fff; display: block; font-size: 14px; }
+
+    /* ═══════════════════════════════════════
+       VISITOR SIGN-IN BANNER
+    ═══════════════════════════════════════ */
+    #signin-banner {
+      background: var(--abbott-blue-light);
+      border-bottom: 2px solid var(--abbott-blue);
+      padding: 14px 48px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    #signin-banner span { font-size: 14px; color: var(--abbott-blue-dark); font-weight: 600; flex-shrink: 0; }
+    #signin-banner input {
+      border: 1px solid var(--abbott-blue);
+      border-radius: 3px;
+      padding: 7px 12px;
+      font-size: 13px;
+      width: 220px;
+      outline: none;
+    }
+    #signin-banner input:focus { box-shadow: 0 0 0 2px rgba(0,99,190,0.25); }
+    .btn-signin {
+      background: var(--abbott-blue);
+      color: #fff;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 3px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-signin:hover { background: var(--abbott-blue-dark); }
+    .btn-signin:disabled { opacity: 0.6; cursor: default; }
+
+    #signed-in-msg {
+      display: none;
+      font-size: 13px;
+      color: var(--abbott-blue-dark);
+      padding: 12px 48px;
+      background: var(--abbott-blue-light);
+      border-bottom: 1px solid var(--border);
+    }
+    #signed-in-msg strong { color: var(--abbott-blue); }
+
+    /* ═══════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════ */
+    .hero {
+      background: linear-gradient(135deg, #0a0a0a 0%, #0d2a4a 50%, var(--abbott-blue) 100%);
+      color: #fff;
+      padding: 48px 48px 52px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -60px; top: -60px;
+      width: 340px; height: 340px;
+      border-radius: 50%;
+      background: rgba(19,181,200,0.08);
+      pointer-events: none;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(19,181,200,0.2);
+      border: 1px solid rgba(19,181,200,0.5);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #7ae0ea;
+    }
+    .hero h1 { font-size: 32px; font-weight: 800; margin-bottom: 10px; line-height: 1.2; }
+    .hero p  { font-size: 15px; color: rgba(255,255,255,0.75); max-width: 580px; line-height: 1.6; margin-bottom: 20px; }
+    .hero-meta { display: flex; gap: 28px; flex-wrap: wrap; }
+    .meta-chip {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 13px; color: rgba(255,255,255,0.8);
+    }
+    .meta-chip svg { width: 15px; height: 15px; fill: rgba(255,255,255,0.6); }
+
+    /* ═══════════════════════════════════════
+       MAIN LAYOUT
+    ═══════════════════════════════════════ */
+    main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 40px 48px 60px;
+    }
+    .board-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .section-header {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
+    }
+    .section-header h2 { font-size: 20px; font-weight: 800; color: #0a0a0a; }
+    .section-badge {
+      background: var(--abbott-teal);
+      color: #fff;
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .section-divider {
+      height: 3px;
+      background: linear-gradient(90deg, #0a0a0a 0%, var(--abbott-teal) 100%);
+      border-radius: 2px;
+      margin-bottom: 24px;
+    }
+    .note-group { margin-bottom: 28px; }
+    .group-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .group-label::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+    .notes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .notes-grid.single { grid-template-columns: 1fr; }
+
+    .note {
+      border-radius: 4px;
+      padding: 16px 16px 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: var(--text-primary);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .note:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+    .note-orange { background: var(--sticky-orange-bg); border-left: 4px solid var(--sticky-orange); }
+    .note-blue   { background: var(--sticky-blue-bg);   border-left: 4px solid var(--sticky-blue-border); }
+    .note-pink   { background: var(--sticky-pink-bg);   border-left: 4px solid var(--sticky-pink-border); }
+    .note-green  { background: var(--sticky-green-bg);  border-left: 4px solid var(--sticky-green-border); }
+    .note p { margin: 0; }
+    .note strong { color: #0a2240; }
+    .note .arrow { color: var(--abbott-blue); font-weight: 700; }
+    .note-tag {
+      display: inline-block;
+      background: rgba(0,99,190,0.1);
+      color: var(--abbott-blue-dark);
+      border-radius: 10px;
+      padding: 1px 8px;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.5px; text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .note-tag.pink { background: rgba(240,98,146,0.15); color: #a0185c; }
+    .note-tag.teal { background: rgba(19,181,200,0.15); color: #0a7a8a; }
+    .note-wide { grid-column: 1 / -1; }
+
+    /* ═══════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════ */
+    footer {
+      background: #0a0a0a;
+      color: rgba(255,255,255,0.45);
+      text-align: center;
+      padding: 22px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 12px;
+    }
+    footer .abbott-logo .abbott-wordmark { font-size: 16px; }
+
+    @media (max-width: 860px) {
+      .board-columns { grid-template-columns: 1fr; }
+      header, main, .hero, #signin-banner { padding-left: 20px; padding-right: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════
+       HEADER
+  ══════════════════════════════════ -->
+  <header>
+    <!-- Abbott logo: teal brand-mark icon + white wordmark, black background -->
+    <div class="abbott-logo">
+      <svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
+        <!-- Teal rounded square -->
+        <rect width="42" height="42" rx="7" fill="#13B5C8"/>
+        <!-- Top-right dark cutout -->
+        <rect x="22" y="6"  width="14" height="13" rx="2" fill="#0a0a0a"/>
+        <!-- Bottom-right dark cutout -->
+        <rect x="22" y="23" width="14" height="13" rx="2" fill="#0a0a0a"/>
+        <!-- The horizontal bridge in middle stays teal — forming the 'a' crossbar -->
+      </svg>
+      <span class="abbott-wordmark">Abbott</span>
+    </div>
+    <div class="header-divider"></div>
+    <div class="header-subtitle">
+      <strong>SAP AI &amp; Joule Session</strong>
+      Follow-Up Notes &amp; Use Cases
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════
+       VISITOR SIGN-IN
+  ══════════════════════════════════ -->
+  <div id="signin-banner">
+    <span>&#128075; Sign in to log your visit:</span>
+    <input type="text" id="visitor-name" placeholder="Your name…" maxlength="60" />
+    <button class="btn-signin" id="signin-btn" onclick="signIn()">Log My Visit</button>
+  </div>
+  <div id="signed-in-msg"></div>
+
+  <!-- ══════════════════════════════════
+       HERO
+  ══════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-tag">Internal Session Notes</div>
+    <h1>SAP AI &amp; Joule Workshop<br>— Abbott</h1>
+    <p>Captured follow-up actions and use cases from our Joule 2.0 discovery session. Color-coded by type: orange = action items, blue = technical questions, pink = custom agent opportunities.</p>
+    <div class="hero-meta">
+      <div class="meta-chip">
+        <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+        October 2026
+      </div>
+      <div class="meta-chip">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        Abbott — Tahseen
+      </div>
+      <div class="meta-chip">
+        <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        SAP &amp; Abbott Teams
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       MAIN CONTENT
+  ══════════════════════════════════ -->
+  <main>
+    <div class="board-columns">
+
+      <!-- LEFT: FOLLOW-UP — TAHSEEN -->
+      <div>
+        <div class="section-header">
+          <h2>Follow-Up — Tahseen</h2>
+          <span class="section-badge">10 items</span>
+        </div>
+        <div class="section-divider"></div>
+
+        <div class="note-group">
+          <div class="group-label">Joule Strategy &amp; Architecture</div>
+          <div class="notes-grid">
+            <div class="note note-green">
+              <div class="note-tag">Knowledge Graph</div>
+              <p><strong>Custom → Knowledge Graphs</strong></p>
+            </div>
+            <div class="note note-orange">
+              <div class="note-tag">Knowledge Graph</div>
+              <p>Custom Knowledge Graphs? <em>(Customization?)</em></p>
+            </div>
+            <div class="note note-orange">
+              <div class="note-tag">Strategy</div>
+              <p>Why invest in <strong>Joule 2.0</strong> vs Office LLMs?</p>
+            </div>
+            <div class="note note-orange">
+              <div class="note-tag">Technical</div>
+              <p>Deep dive on <strong>System Config</strong></p>
+            </div>
+            <div class="note note-orange note-wide">
+              <div class="note-tag">Licensing</div>
+              <p><strong>Integration Suite</strong> Licensing</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="note-group">
+          <div class="group-label">Access &amp; Governance</div>
+          <div class="notes-grid">
+            <div class="note note-blue">
+              <div class="note-tag teal">Access</div>
+              <p><strong>AFA</strong> — How the access will be provided for <strong>Business vs IT</strong>?</p>
+            </div>
+            <div class="note note-blue">
+              <div class="note-tag teal">Knowledge Graph</div>
+              <p>Can we have Knowledge Graphs kept as a <strong>Central Hub for all SAP Systems</strong>?</p>
+            </div>
+            <div class="note note-blue note-wide">
+              <div class="note-tag teal">RISE</div>
+              <p>What advantage do we get being already on <strong>RISE</strong>? <span class="arrow">→</span> Abbott MDA is on RISE.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="note-group">
+          <div class="group-label">EPD &amp; Ariba</div>
+          <div class="notes-grid">
+            <div class="note note-orange">
+              <div class="note-tag">EPD</div>
+              <p>EPD Use Cases <strong>— Finance</strong></p>
+            </div>
+            <div class="note note-orange">
+              <div class="note-tag">EPD</div>
+              <p>EPD <strong>Manufacturing</strong></p>
+            </div>
+            <div class="note note-orange note-wide">
+              <div class="note-tag">Ariba / Identity</div>
+              <p><strong>Ariba McKinken</strong> <span class="arrow">→</span> Cloud Identity Service <span class="arrow">→</span> Admin Roles</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: USE CASES -->
+      <div>
+        <div class="section-header">
+          <h2>Use Cases</h2>
+          <span class="section-badge">9 items</span>
+        </div>
+        <div class="section-divider"></div>
+
+        <div class="note-group">
+          <div class="group-label">Joule Activation &amp; Rollout</div>
+          <div class="notes-grid">
+            <div class="note note-orange">
+              <div class="note-tag">Joule</div>
+              <p><strong>Base Joule agents</strong> by LOB</p>
+            </div>
+            <div class="note note-orange">
+              <div class="note-tag">Joule</div>
+              <p>A first <strong>Base Joule IAS Activation</strong></p>
+            </div>
+            <div class="note note-orange">
+              <div class="note-tag">Workshop</div>
+              <p><strong>AI4U Workshop</strong></p>
+            </div>
+            <div class="note note-orange">
+              <div class="note-tag">Innovation</div>
+              <p><strong>AI Hackathon</strong></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="note-group">
+          <div class="group-label">Custom Agents &amp; Migration</div>
+          <div class="notes-grid">
+            <div class="note note-pink note-wide">
+              <div class="note-tag pink">Custom Agent</div>
+              <p style="font-weight:700; font-size:14px; margin-bottom:8px;">AI Migrate</p>
+              <p><strong>Buying:</strong> Automatically reject PR / non-PO invoices if it doesn't meet the correct <strong>Taxonomy &amp; GL requirements</strong></p>
+            </div>
+            <div class="note note-orange note-wide">
+              <div class="note-tag">Vendor Portal</div>
+              <p>Customer Agents <span class="arrow">→</span> <strong>Vendor Portal</strong> <span class="arrow">→</span> Supplier Status</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="note-group">
+          <div class="group-label">Integration &amp; Documentation</div>
+          <div class="notes-grid single">
+            <div class="note note-orange">
+              <div class="note-tag">Integration</div>
+              <p>Data mapping / Integration for <strong>OOO agents</strong> documentation</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ══════════════════════════════════
+       FOOTER
+  ══════════════════════════════════ -->
+  <footer>
+    <div class="abbott-logo">
+      <svg width="28" height="28" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
+        <rect width="42" height="42" rx="7" fill="#13B5C8"/>
+        <rect x="22" y="6"  width="14" height="13" rx="2" fill="#0a0a0a"/>
+        <rect x="22" y="23" width="14" height="13" rx="2" fill="#0a0a0a"/>
+      </svg>
+      <span class="abbott-wordmark">Abbott</span>
+    </div>
+    <span>SAP AI &amp; Joule Session Notes &bull; October 2026 &bull; Confidential — Internal Use Only</span>
+    <span>&#169; 2026 Abbott Laboratories</span>
+  </footer>
+
+  <!-- ══════════════════════════════════
+       GOOGLE SHEETS VISITOR TRACKING
+
+       Setup: deploy tracking/apps-script.gs as a Google Apps Script Web App,
+       then replace SHEET_ENDPOINT below with your deployed script URL.
+  ══════════════════════════════════ -->
+  <script>
+    // ── Replace this URL after deploying the Apps Script ──
+    const SHEET_ENDPOINT = 'REPLACE_WITH_YOUR_APPS_SCRIPT_URL';
+
+    function escHtml(s) {
+      return String(s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function logToSheet(name) {
+      if (!SHEET_ENDPOINT || SHEET_ENDPOINT.startsWith('REPLACE')) return;
+      const params = new URLSearchParams({
+        name:     name,
+        page:     document.title,
+        referrer: document.referrer || 'direct',
+        ts:       new Date().toISOString()
+      });
+      // fire-and-forget GET (no-cors) — Apps Script handles CORS via redirect
+      fetch(SHEET_ENDPOINT + '?' + params.toString(), { mode: 'no-cors' })
+        .catch(() => {});
+    }
+
+    function signIn() {
+      const inp = document.getElementById('visitor-name');
+      const btn = document.getElementById('signin-btn');
+      const name = inp.value.trim();
+      if (!name) { inp.focus(); return; }
+
+      btn.disabled = true;
+      btn.textContent = 'Logging…';
+      logToSheet(name);
+
+      document.getElementById('signin-banner').style.display = 'none';
+      const msg = document.getElementById('signed-in-msg');
+      msg.innerHTML = '&#10003; Welcome, <strong>' + escHtml(name) + '</strong>! Your visit has been logged.';
+      msg.style.display = 'block';
+
+      sessionStorage.setItem('abbott_joule_visitor', name);
+    }
+
+    document.getElementById('visitor-name').addEventListener('keydown', e => {
+      if (e.key === 'Enter') signIn();
+    });
+
+    // If already signed in this browser session, skip banner
+    (function init() {
+      const saved = sessionStorage.getItem('abbott_joule_visitor');
+      if (saved) {
+        document.getElementById('signin-banner').style.display = 'none';
+        const msg = document.getElementById('signed-in-msg');
+        msg.innerHTML = '&#128075; Welcome back, <strong>' + escHtml(saved) + '</strong>!';
+        msg.style.display = 'block';
+      }
+    })();
+  </script>
+
+</body>
+</html>
