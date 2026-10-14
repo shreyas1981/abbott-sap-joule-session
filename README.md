@@ -21,7 +21,7 @@ Visits are logged to a Google Sheet via a Google Apps Script web app.
 2. **Deploy the Apps Script**
    - Go to [script.google.com](https://script.google.com) → **New Project**
    - Paste the contents of `tracking/apps-script.gs`
-   - Replace `YOUR_GOOGLE_SHEET_ID_HERE` with your Sheet ID
+   - The Sheet ID `166WjsM_d0O9PECVbDxpDlYTuArUlMytiD-xLoWVTp3Q` is already pre-filled
    - Click **Deploy → New Deployment**
      - Type: **Web app**
      - Execute as: **Me**

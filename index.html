@@ -6,27 +6,26 @@
   <title>SAP AI & Joule Session – Abbott | Follow-Up Notes</title>
   <style>
     :root {
-      --abbott-blue:       #0063BE;
-      --abbott-blue-dark:  #004A94;
-      --abbott-blue-light: #E5EFF9;
-      --abbott-teal:       #13B5C8;
-      --text-primary:      #1A1A1A;
-      --text-muted:        #767676;
-      --surface-alt:       #F4F7FB;
-      --border:            #D8E4F0;
-      --sticky-orange:     #F7A832;
-      --sticky-orange-bg:  #FFF3D6;
-      --sticky-blue-bg:    #D4EDFB;
-      --sticky-blue-border:#5BB8E8;
-      --sticky-pink-bg:    #FFD6E0;
-      --sticky-pink-border:#F06292;
-      --sticky-green-bg:   #DFFBE8;
+      --abbott-blue:        #0063BE;
+      --abbott-blue-dark:   #004A94;
+      --abbott-blue-light:  #E5EFF9;
+      --abbott-teal:        #13B5C8;
+      --text-primary:       #1A1A1A;
+      --text-muted:         #767676;
+      --surface-alt:        #F4F7FB;
+      --border:             #D8E4F0;
+      --sticky-orange:      #F7A832;
+      --sticky-orange-bg:   #FFF3D6;
+      --sticky-blue-bg:     #D4EDFB;
+      --sticky-blue-border: #5BB8E8;
+      --sticky-pink-bg:     #FFD6E0;
+      --sticky-pink-border: #F06292;
+      --sticky-green-bg:    #DFFBE8;
       --sticky-green-border:#4CAF7D;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: "Helvetica Neue", Arial, "Liberation Sans", sans-serif;
+      font-family: "Helvetica Neue", Arial, sans-serif;
       background: var(--surface-alt);
       color: var(--text-primary);
       -webkit-font-smoothing: antialiased;
@@ -44,34 +43,23 @@
       padding: 0 48px;
       display: flex;
       align-items: center;
-      height: 64px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      height: 68px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
       position: sticky;
       top: 0;
       z-index: 200;
     }
-
-    /* Abbott logo — matches brand mark: teal rounded square icon + white wordmark */
-    .abbott-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-shrink: 0;
+    /* Abbott logo image — exact brand asset */
+    .header-logo img {
+      height: 42px;
+      width: auto;
+      display: block;
     }
-    .abbott-logo svg { display: block; }
-    .abbott-wordmark {
-      font-size: 22px;
-      font-weight: 900;
-      color: #ffffff;
-      letter-spacing: 0.5px;
-      font-family: "Helvetica Neue", Arial, sans-serif;
-    }
-
     .header-divider {
-      width: 1px;
-      height: 32px;
+      width: 1px; height: 32px;
       background: rgba(255,255,255,0.2);
-      margin: 0 20px;
+      margin: 0 22px;
+      flex-shrink: 0;
     }
     .header-subtitle {
       font-size: 13px;
@@ -81,50 +69,84 @@
     .header-subtitle strong { color: #fff; display: block; font-size: 14px; }
 
     /* ═══════════════════════════════════════
-       VISITOR SIGN-IN BANNER
+       FIRST-VISIT NAME MODAL (bottom-right)
     ═══════════════════════════════════════ */
-    #signin-banner {
-      background: var(--abbott-blue-light);
-      border-bottom: 2px solid var(--abbott-blue);
-      padding: 14px 48px;
+    #welcome-modal {
+      display: none;
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 999;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.1);
+      width: 320px;
+      overflow: hidden;
+      animation: slideUp .3s ease;
+    }
+    #welcome-modal.open { display: block; }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+    .wm-header {
+      background: #0a0a0a;
+      padding: 14px 18px;
       display: flex;
       align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
+      gap: 10px;
     }
-    #signin-banner span { font-size: 14px; color: var(--abbott-blue-dark); font-weight: 600; flex-shrink: 0; }
-    #signin-banner input {
-      border: 1px solid var(--abbott-blue);
-      border-radius: 3px;
-      padding: 7px 12px;
+    .wm-header img { height: 28px; width: auto; }
+    .wm-body { padding: 18px; }
+    .wm-body p {
+      font-size: 13.5px;
+      color: #444;
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .wm-body p strong { color: #0a0a0a; }
+    .wm-input {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 4px;
+      padding: 9px 12px;
       font-size: 13px;
-      width: 220px;
       outline: none;
+      margin-bottom: 12px;
+      transition: border-color .2s;
     }
-    #signin-banner input:focus { box-shadow: 0 0 0 2px rgba(0,99,190,0.25); }
-    .btn-signin {
+    .wm-input:focus { border-color: var(--abbott-blue); box-shadow: 0 0 0 3px rgba(0,99,190,0.12); }
+    .wm-btn {
+      width: 100%;
       background: var(--abbott-blue);
       color: #fff;
       border: none;
-      padding: 8px 20px;
-      border-radius: 3px;
-      font-size: 13px;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 13.5px;
       font-weight: 700;
       cursor: pointer;
       transition: background .2s;
     }
-    .btn-signin:hover { background: var(--abbott-blue-dark); }
-    .btn-signin:disabled { opacity: 0.6; cursor: default; }
+    .wm-btn:hover { background: var(--abbott-blue-dark); }
+    .wm-btn:disabled { opacity: 0.55; cursor: default; }
+    .wm-note {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 10px;
+    }
 
-    #signed-in-msg {
+    /* Visitor greeting strip (shown after sign-in) */
+    #visitor-strip {
       display: none;
-      font-size: 13px;
-      color: var(--abbott-blue-dark);
-      padding: 12px 48px;
       background: var(--abbott-blue-light);
       border-bottom: 1px solid var(--border);
+      padding: 9px 48px;
+      font-size: 13px;
+      color: var(--abbott-blue-dark);
     }
-    #signed-in-msg strong { color: var(--abbott-blue); }
+    #visitor-strip strong { color: var(--abbott-blue); }
 
     /* ═══════════════════════════════════════
        HERO
@@ -142,7 +164,7 @@
       right: -60px; top: -60px;
       width: 340px; height: 340px;
       border-radius: 50%;
-      background: rgba(19,181,200,0.08);
+      background: rgba(19,181,200,0.07);
       pointer-events: none;
     }
     .hero-tag {
@@ -180,17 +202,14 @@
       grid-template-columns: 1fr 1fr;
       gap: 32px;
     }
-    .section-header {
-      display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
-    }
+    .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
     .section-header h2 { font-size: 20px; font-weight: 800; color: #0a0a0a; }
     .section-badge {
       background: var(--abbott-teal);
       color: #fff;
       border-radius: 12px;
       padding: 2px 10px;
-      font-size: 11px;
-      font-weight: 700;
+      font-size: 11px; font-weight: 700;
     }
     .section-divider {
       height: 3px;
@@ -245,9 +264,8 @@
     ═══════════════════════════════════════ */
     footer {
       background: #0a0a0a;
-      color: rgba(255,255,255,0.45);
-      text-align: center;
-      padding: 22px 48px;
+      color: rgba(255,255,255,0.4);
+      padding: 20px 48px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -255,32 +273,22 @@
       gap: 8px;
       font-size: 12px;
     }
-    footer .abbott-logo .abbott-wordmark { font-size: 16px; }
+    footer img { height: 30px; width: auto; }
 
     @media (max-width: 860px) {
       .board-columns { grid-template-columns: 1fr; }
-      header, main, .hero, #signin-banner { padding-left: 20px; padding-right: 20px; }
+      header, main, .hero { padding-left: 20px; padding-right: 20px; }
+      #visitor-strip { padding-left: 20px; padding-right: 20px; }
+      #welcome-modal { right: 12px; bottom: 12px; width: calc(100vw - 24px); }
     }
   </style>
 </head>
 <body>
 
-  <!-- ══════════════════════════════════
-       HEADER
-  ══════════════════════════════════ -->
+  <!-- HEADER -->
   <header>
-    <!-- Abbott logo: teal brand-mark icon + white wordmark, black background -->
-    <div class="abbott-logo">
-      <svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
-        <!-- Teal rounded square -->
-        <rect width="42" height="42" rx="7" fill="#13B5C8"/>
-        <!-- Top-right dark cutout -->
-        <rect x="22" y="6"  width="14" height="13" rx="2" fill="#0a0a0a"/>
-        <!-- Bottom-right dark cutout -->
-        <rect x="22" y="23" width="14" height="13" rx="2" fill="#0a0a0a"/>
-        <!-- The horizontal bridge in middle stays teal — forming the 'a' crossbar -->
-      </svg>
-      <span class="abbott-wordmark">Abbott</span>
+    <div class="header-logo">
+      <img src="abbott-logo.png" alt="Abbott" />
     </div>
     <div class="header-divider"></div>
     <div class="header-subtitle">
@@ -289,26 +297,17 @@
     </div>
   </header>
 
-  <!-- ══════════════════════════════════
-       VISITOR SIGN-IN
-  ══════════════════════════════════ -->
-  <div id="signin-banner">
-    <span>&#128075; Sign in to log your visit:</span>
-    <input type="text" id="visitor-name" placeholder="Your name…" maxlength="60" />
-    <button class="btn-signin" id="signin-btn" onclick="signIn()">Log My Visit</button>
-  </div>
-  <div id="signed-in-msg"></div>
+  <!-- Visitor greeting (shown after name is captured) -->
+  <div id="visitor-strip"></div>
 
-  <!-- ══════════════════════════════════
-       HERO
-  ══════════════════════════════════ -->
+  <!-- HERO -->
   <section class="hero">
     <div class="hero-tag">Internal Session Notes</div>
     <h1>SAP AI &amp; Joule Workshop<br>— Abbott</h1>
     <p>Captured follow-up actions and use cases from our Joule 2.0 discovery session. Color-coded by type: orange = action items, blue = technical questions, pink = custom agent opportunities.</p>
     <div class="hero-meta">
       <div class="meta-chip">
-        <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
         October 2026
       </div>
       <div class="meta-chip">
@@ -322,9 +321,7 @@
     </div>
   </section>
 
-  <!-- ══════════════════════════════════
-       MAIN CONTENT
-  ══════════════════════════════════ -->
+  <!-- MAIN CONTENT -->
   <main>
     <div class="board-columns">
 
@@ -458,81 +455,98 @@
     </div>
   </main>
 
-  <!-- ══════════════════════════════════
-       FOOTER
-  ══════════════════════════════════ -->
+  <!-- FOOTER -->
   <footer>
-    <div class="abbott-logo">
-      <svg width="28" height="28" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
-        <rect width="42" height="42" rx="7" fill="#13B5C8"/>
-        <rect x="22" y="6"  width="14" height="13" rx="2" fill="#0a0a0a"/>
-        <rect x="22" y="23" width="14" height="13" rx="2" fill="#0a0a0a"/>
-      </svg>
-      <span class="abbott-wordmark">Abbott</span>
-    </div>
-    <span>SAP AI &amp; Joule Session Notes &bull; October 2026 &bull; Confidential — Internal Use Only</span>
+    <img src="abbott-logo.png" alt="Abbott" />
+    <span>SAP AI &amp; Joule Session Notes &bull; October 2026 &bull; Internal Use Only</span>
     <span>&#169; 2026 Abbott Laboratories</span>
   </footer>
 
   <!-- ══════════════════════════════════
-       GOOGLE SHEETS VISITOR TRACKING
+       FIRST-VISIT MODAL (bottom-right)
+       — shown only once, name stored forever in localStorage
+  ══════════════════════════════════ -->
+  <div id="welcome-modal">
+    <div class="wm-header">
+      <img src="abbott-logo.png" alt="Abbott" />
+    </div>
+    <div class="wm-body">
+      <p>Please enter your name so we can log who has<br><strong>accessed this document</strong>.</p>
+      <input class="wm-input" id="wm-name" type="text" placeholder="Your full name…" maxlength="80" autocomplete="name" />
+      <button class="wm-btn" id="wm-btn" onclick="submitName()">Continue</button>
+      <div class="wm-note">Your name is only stored for access tracking. You won't be asked again.</div>
+    </div>
+  </div>
 
-       Setup: deploy tracking/apps-script.gs as a Google Apps Script Web App,
-       then replace SHEET_ENDPOINT below with your deployed script URL.
+  <!-- ══════════════════════════════════
+       TRACKING SCRIPT
+       Logs to Google Sheets via Apps Script endpoint.
+       Replace SHEET_ENDPOINT with your deployed web app URL.
   ══════════════════════════════════ -->
   <script>
-    // ── Replace this URL after deploying the Apps Script ──
+    // ── Paste your deployed Google Apps Script URL here ──
     const SHEET_ENDPOINT = 'REPLACE_WITH_YOUR_APPS_SCRIPT_URL';
+    const VISITOR_KEY    = 'abbott_joule_visitor_name';
 
-    function escHtml(s) {
+    function esc(s) {
       return String(s)
         .replace(/&/g,'&amp;').replace(/</g,'&lt;')
         .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
 
-    function logToSheet(name) {
+    /* Fire-and-forget log to Google Sheet */
+    function logVisit(name) {
       if (!SHEET_ENDPOINT || SHEET_ENDPOINT.startsWith('REPLACE')) return;
-      const params = new URLSearchParams({
+      const p = new URLSearchParams({
         name:     name,
         page:     document.title,
         referrer: document.referrer || 'direct',
         ts:       new Date().toISOString()
       });
-      // fire-and-forget GET (no-cors) — Apps Script handles CORS via redirect
-      fetch(SHEET_ENDPOINT + '?' + params.toString(), { mode: 'no-cors' })
-        .catch(() => {});
+      fetch(SHEET_ENDPOINT + '?' + p.toString(), { mode: 'no-cors' }).catch(() => {});
     }
 
-    function signIn() {
-      const inp = document.getElementById('visitor-name');
-      const btn = document.getElementById('signin-btn');
+    /* Show greeting strip */
+    function showStrip(name) {
+      const el = document.getElementById('visitor-strip');
+      el.innerHTML = '&#128075; Welcome, <strong>' + esc(name) + '</strong> — your visit has been logged.';
+      el.style.display = 'block';
+    }
+
+    /* User submits their name for the first time */
+    function submitName() {
+      const inp = document.getElementById('wm-name');
+      const btn = document.getElementById('wm-btn');
       const name = inp.value.trim();
       if (!name) { inp.focus(); return; }
 
       btn.disabled = true;
       btn.textContent = 'Logging…';
-      logToSheet(name);
 
-      document.getElementById('signin-banner').style.display = 'none';
-      const msg = document.getElementById('signed-in-msg');
-      msg.innerHTML = '&#10003; Welcome, <strong>' + escHtml(name) + '</strong>! Your visit has been logged.';
-      msg.style.display = 'block';
+      localStorage.setItem(VISITOR_KEY, name);
+      logVisit(name);
 
-      sessionStorage.setItem('abbott_joule_visitor', name);
+      document.getElementById('welcome-modal').classList.remove('open');
+      showStrip(name);
     }
 
-    document.getElementById('visitor-name').addEventListener('keydown', e => {
-      if (e.key === 'Enter') signIn();
+    /* Allow Enter key in modal */
+    document.getElementById('wm-name').addEventListener('keydown', e => {
+      if (e.key === 'Enter') submitName();
     });
 
-    // If already signed in this browser session, skip banner
+    /* On page load */
     (function init() {
-      const saved = sessionStorage.getItem('abbott_joule_visitor');
+      const saved = localStorage.getItem(VISITOR_KEY);
       if (saved) {
-        document.getElementById('signin-banner').style.display = 'none';
-        const msg = document.getElementById('signed-in-msg');
-        msg.innerHTML = '&#128075; Welcome back, <strong>' + escHtml(saved) + '</strong>!';
-        msg.style.display = 'block';
+        // Returning visitor — log silently, show greeting, no modal
+        logVisit(saved);
+        showStrip(saved);
+      } else {
+        // First visit — show modal after a brief delay
+        setTimeout(() => {
+          document.getElementById('welcome-modal').classList.add('open');
+        }, 800);
       }
     })();
   </script>
